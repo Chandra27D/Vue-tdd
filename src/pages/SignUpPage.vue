@@ -2,35 +2,35 @@
   <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
     <form class="card mt-5" data-testid="form-sign-up" v-show="!signupSuccess">
       <div class="card-header">
-        <h1 class="text-center">{{ $t("signUp")}}</h1>
+        <h1 class="text-center">{{ $t("signUp") }}</h1>
         <div class="card-body"></div>
-        <UsernameInput 
-        id="username" 
-        :label="$t('username')" 
-        :help="errors.username" 
-        v-model="username"
-        type="text"
+        <UsernameInput
+          id="username"
+          :label="$t('username')"
+          :help="errors.username"
+          v-model="username"
+          type="text"
         />
-        <UsernameInput 
-        id="email" 
-        :label="$t('email')" 
-        :help="errors.email" 
-        v-model="email"
-        type="email"
+        <UsernameInput
+          id="email"
+          :label="$t('email')"
+          :help="errors.email"
+          v-model="email"
+          type="email"
         />
-        <UsernameInput 
-        id="password" 
-        :label="$t('password')" 
-        :help="errors.password" 
-        v-model="password"
-        type="password"
+        <UsernameInput
+          id="password"
+          :label="$t('password')"
+          :help="errors.password"
+          v-model="password"
+          type="password"
         />
-        <UsernameInput 
-        id="confirm-password" 
-        :label="$t('confirmPassword')" 
-        :help="hasPasswordMismatch ? $t('passwordMismatchValidation') : ''" 
-        v-model="confirmPassword"
-        type="password"
+        <UsernameInput
+          id="confirm-password"
+          :label="$t('confirmPassword')"
+          :help="hasPasswordMismatch ? $t('passwordMismatchValidation') : ''"
+          v-model="confirmPassword"
+          type="password"
         />
         <!-- <div class="mb-3">
           <label for="username" class="form-label">Username</label>
@@ -48,7 +48,7 @@
               class="spinner-border spinner-border-sm"
               role="status"
             ></span>
-            {{ $t("signUp")}}
+            {{ $t("signUp") }}
           </button>
           <!-- This has better performance -->
         </div>
@@ -72,23 +72,23 @@
       <!-- <button :disabled="isDisabled()">Sign Up</button> -->
     </form>
     <div class="alert alert-success mt-3" v-show="signupSuccess">
-      {{$t('accountActivationNotification')}}
+      {{ $t("accountActivationNotification") }}
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import UsernameInput from '../components/UsernameInput.vue'
+import { signUp } from "../api/apiCalls";
+import UsernameInput from "../components/UsernameInput.vue";
 export default {
   name: "SignUpPage",
   components: {
-      UsernameInput
+    UsernameInput,
   },
   data() {
     return {
       // isDisabled: true, to refactor the code we need a more readable and clean format and that's what we have done.
-    //   disabled: false, use apiProgress as it is serving the same purpose
+      //   disabled: false, use apiProgress as it is serving the same purpose
       username: "",
       email: "",
       password: "",
@@ -122,45 +122,42 @@ export default {
         ? this.password !== this.confirmPassword
         : true;
     },
-    hasPasswordMismatch(){
-        return this.password !== this.confirmPassword
+    hasPasswordMismatch() {
+      return this.password !== this.confirmPassword;
     },
   },
 
   watch: {
-      username(){
-          delete this.errors.username;
-      },
-      email(){
-          delete this.errors.email;
-      },
-      password(){
-          delete this.errors.password;
-      }
+    username() {
+      delete this.errors.username;
+    },
+    email() {
+      delete this.errors.email;
+    },
+    password() {
+      delete this.errors.password;
+    },
   },
 
   methods: {
-    submit() {
+    async submit() {
       this.disabled = true;
       this.apiProgress = true;
       // axios.post('http://localhost:8080/api/1.0/users', { we set the target as http://localhost:8080 for all the /api requests in the vue.config,js file.
-      axios
-        .post("/api/1.0/users", {
+      
+      try{
+        await signUp({
           username: this.username,
           email: this.email,
           password: this.password,
-        }, {
-          headers: {
-            "Accept-Language": this.$i18n.locale
+        })
+          this.signupSuccess = true
+      }   catch(error) {
+          if (error.response.status === 400) {
+            this.errors = error.response.data.validationErrors;
           }
-        })
-        .then(() => (this.signupSuccess = true))
-        .catch((error) => {
-            if(error.response.status === 400){
-                this.errors = error.response.data.validationErrors
-            }
-            this.apiProgress = false;
-        })
+          this.apiProgress = false;
+        };
 
       /*
             const requestBody = {
