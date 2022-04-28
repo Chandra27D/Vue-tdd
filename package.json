@@ -12,7 +12,7 @@
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
-    "vue-i18n": "^9.2.0-beta.35",
+    "vue-i18n": "^9.1.9",
     "vue3-i18n": "^1.1.5"
   },
   "devDependencies": {
