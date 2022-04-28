@@ -60,6 +60,7 @@
     "transform": {
       ".*\\.(vue)$": "vue-jest",
       ".*\\.(js)$": "babel-jest"
-    }
+    },
+    "setupFilesAfterEnv": ["./test/setupTest.js"]
   }
 }
