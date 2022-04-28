@@ -1,5 +1,5 @@
 import SignUpPage from "./SignUpPage.vue";
-import { queryByRole, render, screen, waitFor } from "@testing-library/vue";
+import { render, screen, waitFor } from "@testing-library/vue";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import { setupServer } from "msw/node";
