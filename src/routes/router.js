@@ -3,6 +3,7 @@ import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import UserPage from '../pages/UserPage';
+import AccountActivationPage from '../pages/AccountActivationPage';
 
 
 const routes = [
@@ -21,6 +22,10 @@ const routes = [
     {
         path: "/user/:id",
         component: UserPage 
+    },
+    {
+        path: "/activate/:token",
+        component: AccountActivationPage 
     },
 ];
 

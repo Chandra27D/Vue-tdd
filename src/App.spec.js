@@ -13,12 +13,14 @@ describe("Routing", () => {
     }
 
     it.each`
-        path         | pageTestId
-        ${"/"}       | ${"home-page"}
-        ${"/signup"} | ${"signup-page"}
-        ${"/login"}  | ${"login-page"}
-        ${"/user/1"} | ${"user-page"}
-        ${"/user/2"} | ${"user-page"}
+        path                | pageTestId
+        ${"/"}              | ${"home-page"}
+        ${"/signup"}        | ${"signup-page"}
+        ${"/login"}         | ${"login-page"}
+        ${"/user/1"}        | ${"user-page"}
+        ${"/user/2"}        | ${"user-page"}
+        ${"/activate/1234"} | ${"activation-page"}
+        ${"/activate/5678"} | ${"activation-page"}
     `("displays $pageTestId at $path", async ({ path, pageTestId}) => {
         await setup(path);
         const page = screen.queryByTestId(pageTestId);
@@ -26,22 +28,32 @@ describe("Routing", () => {
     });
 
     it.each`
-        path         | pageTestId
-        ${"/"}       | ${"signup-page"}
-        ${"/"}       | ${"login-page"}
-        ${"/"}       | ${"user-page"}
-        ${"/signup"} | ${"home-page"}
-        ${"/signup"} | ${"login-page"}
-        ${"/signup"} | ${"user-page"}
-        ${"/login"}  | ${"home-page"}
-        ${"/login"}  | ${"signup-page"}
-        ${"/login"}  | ${"user-page"}
-        ${"/user/1"} | ${"home-page"}
-        ${"/user/1"} | ${"login-page"}
-        ${"/user/1"} | ${"signup-page"}
-        ${"/user/2"} | ${"home-page"}
-        ${"/user/2"} | ${"login-page"}
-        ${"/user/2"} | ${"signup-page"}
+        path                | pageTestId
+        ${"/"}              | ${"signup-page"}
+        ${"/"}              | ${"login-page"}
+        ${"/"}              | ${"user-page"}
+        ${"/"}              | ${"activation-page"}
+        ${"/signup"}        | ${"home-page"}
+        ${"/signup"}        | ${"login-page"}
+        ${"/signup"}        | ${"user-page"}
+        ${"/signup"}        | ${"activation-page"}
+        ${"/login"}         | ${"home-page"}
+        ${"/login"}         | ${"signup-page"}
+        ${"/login"}         | ${"user-page"}
+        ${"/login"}         | ${"activation-page"}
+        ${"/user/1"}        | ${"home-page"}
+        ${"/user/1"}        | ${"login-page"}
+        ${"/user/1"}        | ${"signup-page"}
+        ${"/user/1"}        | ${"activation-page"}
+        ${"/user/2"}        | ${"home-page"}
+        ${"/user/2"}        | ${"login-page"}
+        ${"/user/2"}        | ${"signup-page"}
+        ${"/user/2"}        | ${"activation-page"}
+        ${"/activate/1234"} | ${"home-page"}
+        ${"/activate/1234"} | ${"signup-page"}
+        ${"/activate/1234"} | ${"login-page"}
+        ${"/activate/1234"} | ${"user-page"}
+
     `("does not display the $pageTestId page when at $path", async ( { path, pageTestId } ) =>{
         await setup(path);
         const page = screen.queryByTestId(pageTestId);
