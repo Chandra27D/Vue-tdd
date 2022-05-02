@@ -1,6 +1,16 @@
 <template>
   <div data-testid="activation-page">
-    <div class="alert alert-success mt-3 " v-if="success">Account is activated</div>
+    <div class="alert alert-success mt-3" v-if="success">
+      Account is activated
+    </div>
+    <div class="alert alert-danger mt-3" v-else-if="fail">
+      Activation failure
+    </div>
+    <span
+      v-if="apiProgress"
+      class="spinner-border"
+      role="status"
+    ></span>
   </div>
 </template>
 
@@ -10,10 +20,19 @@ export default {
   data() {
     return {
       success: false,
+      fail: false,
+      apiProgress: false,
     };
   },
-  mounted() {
-    activate(this.$route.params.token).then(() => (this.success = true));
+  async mounted() {
+    this.apiProgress = true;
+    try {
+        await activate (this.$route.params.token);
+        this.success = true;
+    } catch (error) {
+        this.fail = true
+    }
+        this.apiProgress = false
   },
 };
 </script>
