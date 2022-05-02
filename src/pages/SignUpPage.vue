@@ -43,11 +43,7 @@
             :disabled="isDisabled || apiProgress"
             @click.prevent="submit"
           >
-            <span
-              v-if="apiProgress"
-              class="spinner-border spinner-border-sm"
-              role="status"
-            ></span>
+            <SpinnerComponent v-if="apiProgress" role="status" />
             {{ $t("signUp") }}
           </button>
           <!-- This has better performance -->
@@ -80,10 +76,12 @@
 <script>
 import { signUp } from "../api/apiCalls";
 import UsernameInput from "../components/UsernameInput.vue";
+import SpinnerComponent from "../components/SpinnerComponent.vue";
 export default {
   name: "SignUpPage",
   components: {
     UsernameInput,
+    SpinnerComponent
   },
   data() {
     return {

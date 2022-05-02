@@ -6,17 +6,18 @@
     <div class="alert alert-danger mt-3" v-else-if="fail">
       Activation failure
     </div>
-    <span
-      v-if="apiProgress"
-      class="spinner-border"
-      role="status"
-    ></span>
+    <SpinnerComponent v-if="apiProgress" size="normal" />
   </div>
 </template>
 
 <script>
 import { activate } from "../api/apiCalls";
+import SpinnerComponent from '../components/SpinnerComponent.vue'
 export default {
+
+  components: {
+      SpinnerComponent
+  },
   data() {
     return {
       success: false,
